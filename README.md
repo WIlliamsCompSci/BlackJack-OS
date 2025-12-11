@@ -38,70 +38,81 @@ If you are on Windows, use WSL (Windows Subsystem for Linux) or a Linux VM for e
 
 ---
 
-## Build: Step-by-step (detailed)
+## HOW TO ACTUALLY RUN THE GAME
+LET ME SHOW YOU HOW TO RUN THE GAME AND HOW TO PLAY THE GAME
 
-This section explains exactly how to compile the project from scratch and explains what each step does.
+## Step 1: Open a Terminal
+A terminal is like a chat box for the computer.
 
-## 1. Open a terminal in the project root
-Open a terminal (bash, zsh, or similar) and `cd` into the folder that contains `Makefile`, `server.c`, and `client.c`.
+## Step 2: Go to the folder where the files are
+Type this:
+cd your-folder-name-here
+(Replace the folder name with the one where your project is.)
+When you’re in the right place, you’ll see these files:
+server.c  client.c  deck.h  protocol.h  common.h  Makefile
 
-
-cd /path/to/your/project
-
-
-### 2. Clean any previous builds
-
-This removes old binaries or object files:
-
+## Step 3: Build (compile) the game
+Building = telling the computer to “make the game ready to play.”
+Type this:
 make clean
-
-## 3. Build the Project
-Compile both the server and client using the Makefile:
-
 make
 
-This command:
-compiles all .c files
-links pthreads
-produces two executables: server and client
+If it works, new files will appear:
+server
+client
+These are the actual game programs.
 
-When successful, your directory now contains:
-server*
-client*
-
-## Running the Server
-Choose any available port (example: 12345) and run:
+## Step 4: Start the Dealer (the server)
+Now you pretend to be the dealer.
+Open Terminal #1 and type:
 ./server 12345
-
-Expected output (your version may vary):
+This starts the game dealer on port 12345 (just a number everyone connects to).
+If it worked, the computer will say something like:
 Server listening on port 12345
 Waiting for players...
+GREAT! The dealer is ready.
 
-Running More Clients (Optional)
-Open additional terminals:
+## Step 5: Start a Player (you)
+Open Terminal #2 (a new window).
+Type:
+./client 127.0.0.1 12345 Alice
+This means:
+You are Alice
+You are connecting to your own computer (127.0.0.1)
+Using port 12345 where the dealer is waiting
+If it works, Alice joins the game!
+
+## Step 6: Start a Player for Your Friend
+Your friend does the same thing on Terminal #3:
 ./client 127.0.0.1 12345 Bob
-./client 127.0.0.1 12345 Charlie
+Now it’s:
+Alice (you)
+Bob (your friend)
+Dealer (server)
+Everyone is connected!
 
-## Playing the Game
-Clients respond with commands:
+## Step 7: Play the Game 
+Each player types one of these:
 
-- HIT — request another card
-- STAND — end your turn
-- CHAT <message> — send chat text to all players
-- QUIT — disconnect from server
+HIT	-- Give me another card
+STAND -- I'm done, next player
+CHAT hello -- Send messages to other players
+QUIT -- Leave the game
 
-The server sends messages such as:
-DEAL H10 SA
-YOUR_TURN
-REQUEST_ACTION
-CARD D5
-RESULT WIN 20 18
+The game automatically tells you:
+When it’s your turn
+What cards you get
+If you bust
+Who wins
+You just type the words when the game asks.
 
-## Stopping Client(s)
-Inside a client terminal type:
+## Step 8: Stopping the Game
+To stop the player:
+Type:
 QUIT
-Or simply close the terminal window.
-
-## Stopping the Server
-press:
+or close the window.
+To stop the dealer:
+Go to Terminal #1 and press:
 Ctrl + C
+
+
