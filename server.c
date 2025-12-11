@@ -2,6 +2,7 @@
 #include "common.h"
 #include "protocol.h"
 #include "deck.h"
+#include <stdarg.h>
 
 #define BACKLOG 10
 #define RESHUFFLE_THRESHOLD 15
@@ -342,6 +343,13 @@ void reset_player_round(Player *p) {
     p->awaiting_action = 0;
 }
 
+// Wrapper for pthread
+void *game_loop_wrapper(void *arg) {
+    (void)arg;
+    game_loop();
+    return NULL;
+}
+
 // main coordinator loop
 void game_loop() {
     while (server_running) {
@@ -605,8 +613,17 @@ int main(int argc, char **argv) {
     if (argc >= 2) port = atoi(argv[1]);
     signal(SIGINT, handle_sigint);
     init_game_state(&G);
+    
+    // Start game loop in a separate thread
+    pthread_t game_thread;
+    pthread_create(&game_thread, NULL, game_loop_wrapper, NULL);
+    
     accept_loop(port);
     // if server_running becomes 0, drop to cleanup and exit
+    
+    // Wait for game thread to finish
+    pthread_join(game_thread, NULL);
+    
     printf("Server shutting down\n");
     close(listen_fd);
     return 0;

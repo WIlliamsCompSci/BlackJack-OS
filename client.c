@@ -1,6 +1,7 @@
 // client.c
 #include "common.h"
 #include "protocol.h"
+#include <strings.h>  // for strcasecmp, strncasecmp
 
 volatile int client_running = 1;
 int sockfd = -1;
