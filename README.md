@@ -21,7 +21,8 @@ The server and clients communicate using a **4-byte length-prefixed ASCII protoc
 - `server.c` — server implementation  
 - `client.c` — client implementation  
 - `common.h`, `protocol.h`, `deck.h` — shared headers (types, protocol tokens, deck helpers)  
-- `Makefile` — build rules for the project  
+- `Makefile` — build rules for the project (Linux/macOS/WSL)  
+- `build.ps1` — PowerShell build script for Windows  
 - `README.md` — this file  
 
 ---
@@ -30,11 +31,14 @@ The server and clients communicate using a **4-byte length-prefixed ASCII protoc
 Ensure you have a POSIX-like environment (Linux, macOS, WSL) and these tools installed:
 
 - `gcc` (supporting C11) — e.g., `gcc --version`  
-- `make` — `make --version`  
+- `make` — `make --version` (or use `build.ps1` on Windows PowerShell)  
 - `bash` (for scripts or examples)  
 - Optional but recommended: `valgrind` for memory checking (`valgrind --version`)
 
-If you are on Windows, use WSL (Windows Subsystem for Linux) or a Linux VM for easiest compatibility.
+**Windows users:** You can use:
+- **PowerShell:** Use the provided `build.ps1` script (requires `gcc` installed, e.g., via MinGW)
+- **WSL:** Windows Subsystem for Linux for full POSIX compatibility
+- **Linux VM:** For easiest compatibility
 
 ---
 
@@ -52,10 +56,19 @@ When you’re in the right place, you’ll see these files:
 server.c  client.c  deck.h  protocol.h  common.h  Makefile
 
 ## Step 3: Build (compile) the game
-Building = telling the computer to “make the game ready to play.”
-Type this:
+Building = telling the computer to "make the game ready to play."
+
+**On Linux/macOS/WSL:**
+```
 make clean
 make
+```
+
+**On Windows PowerShell:**
+```
+.\build.ps1 clean
+.\build.ps1
+```
 
 If it works, new files will appear:
 server
