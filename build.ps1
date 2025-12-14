@@ -12,7 +12,7 @@ $LDFLAGS = ""
 
 function Build-Server {
     Write-Host "Building server..." -ForegroundColor Green
-    & $CC -std=c11 -Wall -Wextra -pthread -g -o server server.c
+    & $CC -std=c11 -Wall -Wextra -pthread -g -o server.exe server.c
     if ($LASTEXITCODE -eq 0) {
         Write-Host "Server built successfully!" -ForegroundColor Green
     } else {
@@ -23,7 +23,7 @@ function Build-Server {
 
 function Build-Client {
     Write-Host "Building client..." -ForegroundColor Green
-    & $CC -std=c11 -Wall -Wextra -pthread -g -o client client.c
+    & $CC -std=c11 -Wall -Wextra -pthread -g -o client.exe client.c
     if ($LASTEXITCODE -eq 0) {
         Write-Host "Client built successfully!" -ForegroundColor Green
     } else {
@@ -34,7 +34,7 @@ function Build-Client {
 
 function Clean-Build {
     Write-Host "Cleaning build artifacts..." -ForegroundColor Yellow
-    Remove-Item -Path server,client,*.o -ErrorAction SilentlyContinue
+    Remove-Item -Path server.exe,client.exe,*.o -ErrorAction SilentlyContinue
     Write-Host "Clean complete!" -ForegroundColor Green
 }
 
@@ -53,8 +53,8 @@ switch ($Target.ToLower()) {
         Build-Server
         Build-Client
         Write-Host "`nBuild complete! You can now run:" -ForegroundColor Cyan
-        Write-Host "  .\server 12345" -ForegroundColor White
-        Write-Host "  .\client 127.0.0.1 12345 YourName" -ForegroundColor White
+        Write-Host "  .\server.exe 12345" -ForegroundColor White
+        Write-Host "  .\client.exe 127.0.0.1 12345 YourName" -ForegroundColor White
     }
     default {
         Write-Host "Unknown target: $Target" -ForegroundColor Red

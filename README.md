@@ -71,14 +71,25 @@ make
 ```
 
 If it works, new files will appear:
-server
-client
+- **Linux/macOS/WSL:** `server` and `client`
+- **Windows:** `server.exe` and `client.exe`
+
 These are the actual game programs.
 
 ## Step 4: Start the Dealer (the server)
 Now you pretend to be the dealer.
 Open Terminal #1 and type:
+
+**On Linux/macOS/WSL:**
+```
 ./server 12345
+```
+
+**On Windows PowerShell:**
+```
+.\server.exe 12345
+```
+
 This starts the game dealer on port 12345 (just a number everyone connects to).
 If it worked, the computer will say something like:
 Server listening on port 12345
@@ -88,7 +99,17 @@ GREAT! The dealer is ready.
 ## Step 5: Start a Player (you)
 Open Terminal #2 (a new window).
 Type:
+
+**On Linux/macOS/WSL:**
+```
 ./client 127.0.0.1 12345 Alice
+```
+
+**On Windows PowerShell:**
+```
+.\client.exe 127.0.0.1 12345 Alice
+```
+
 This means:
 You are Alice
 You are connecting to your own computer (127.0.0.1)
@@ -97,7 +118,16 @@ If it works, Alice joins the game!
 
 ## Step 6: Start a Player for Your Friend
 Your friend does the same thing on Terminal #3:
+
+**On Linux/macOS/WSL:**
+```
 ./client 127.0.0.1 12345 Bob
+```
+
+**On Windows PowerShell:**
+```
+.\client.exe 127.0.0.1 12345 Bob
+```
 Now it’s:
 Alice (you)
 Bob (your friend)
