@@ -3,6 +3,7 @@
 #include "protocol.h"
 #include "deck.h"
 #include <stdarg.h>
+#include <sys/time.h>
 
 #define BACKLOG 10
 #define RESHUFFLE_THRESHOLD 15
@@ -342,6 +343,8 @@ void reset_player_round(Player *p) {
     p->pending_action = PLAYER_ACTION_NONE;
     p->awaiting_action = 0;
 }
+
+void game_loop(void);
 
 // Wrapper for pthread
 void *game_loop_wrapper(void *arg) {
