@@ -6,6 +6,15 @@ The server and clients communicate using a **4-byte length-prefixed ASCII protoc
 
 ---
 
+## Members
+- King Colis
+- Nathaniel Federis
+- Cedric Oliveros
+- Andre Silvestre
+- Steven Williams
+
+---
+
 ## Features
 - Multiplayer support (configurable up to 6 players)  
 - Server manages deck, shuffling, dealing, player turns, and dealer logic  
