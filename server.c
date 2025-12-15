@@ -5,6 +5,7 @@
 #include <stdarg.h>
 #include <sys/time.h>
 
+#define MIN_PLAYERS 2
 #define BACKLOG 10
 #define RESHUFFLE_THRESHOLD 15
 
@@ -358,7 +359,7 @@ void game_loop() {
     while (server_running) {
         // Wait for at least 1 connected player
         pthread_mutex_lock(&G.lock);
-        while (G.connected_count == 0 && server_running) {
+        while (G.connected_count < MIN_PLAYERS && server_running) {
             pthread_mutex_unlock(&G.lock);
             sleep(1);
             pthread_mutex_lock(&G.lock);
