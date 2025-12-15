@@ -3,6 +3,7 @@
 #include "protocol.h"
 #include <strings.h>  // for strcasecmp, strncasecmp
 
+volatile int my_turn = 0;
 volatile int client_running = 1;
 int sockfd = -1;
 pthread_t reader_thread;
@@ -76,14 +77,17 @@ void *reader_func(void *arg) {
             printf("[DEAL] %s\n", msg + strlen(MSG_DEAL) + 1);
         } else if (strncmp(msg, MSG_YOUR_TURN, strlen(MSG_YOUR_TURN)) == 0) {
             printf("[SERVER] It's your turn.\n");
+            my_turn = 1;
         } else if (strncmp(msg, MSG_REQUEST_ACTION, strlen(MSG_REQUEST_ACTION)) == 0) {
-            printf("[SERVER] Requesting action. Type HIT or STAND then press Enter.\n");
+            printf("[SERVER] Type HIT or STAND:\n");
         } else if (strncmp(msg, MSG_CARD, strlen(MSG_CARD)) == 0) {
             printf("[CARD] %s\n", msg + strlen(MSG_CARD) + 1);
         } else if (strncmp(msg, MSG_BUSTED, strlen(MSG_BUSTED)) == 0) {
             printf("[SERVER] You BUSTED!\n");
+            my_turn = 0;
         } else if (strncmp(msg, MSG_RESULT, strlen(MSG_RESULT)) == 0) {
             printf("[RESULT] %s\n", msg + strlen(MSG_RESULT) + 1);
+            my_turn = 0;
         } else if (strncmp(msg, MSG_BROADCAST, strlen(MSG_BROADCAST)) == 0) {
             // read next frame to get broadcast text (server sometimes sends separate frames)
             printf("[BROADCAST] "); // rest of message may come in another frame
@@ -146,8 +150,16 @@ int main(int argc, char **argv) {
         if (nl) *nl = '\0';
         // commands: HIT, STAND, QUIT, CHAT <message>
         if (strcasecmp(line, "HIT") == 0) {
+            if (!my_turn) {
+                printf("Not your turn yet.\n");
+                continue;
+            }
             send_msg(sockfd, CMD_ACTION " HIT");
         } else if (strcasecmp(line, "STAND") == 0) {
+            if (!my_turn) {
+            printf("Not your turn yet.\n");
+            continue;
+            }
             send_msg(sockfd, CMD_ACTION " STAND");
         } else if (strcasecmp(line, "QUIT") == 0) {
             send_msg(sockfd, CMD_QUIT);
